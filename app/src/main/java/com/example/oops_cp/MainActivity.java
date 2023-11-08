@@ -37,9 +37,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class MainActivity extends AppCompatActivity {
-    EditText et1;
+    TextView et1;
     TextView tv1,tv2;
-    //Button tosearch;
     private static final int REQUEST_LOCATION_PERMISSION = 1;
 
     private LocationManager locationManager;
@@ -52,8 +51,7 @@ public class MainActivity extends AppCompatActivity {
         et1 = findViewById(R.id.et1);
         tv1 = findViewById(R.id.tv1);
         tv2 = findViewById(R.id.tv2);
-        //tosearch = findViewById(R.id.tosearch);
-        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);//comment
+        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         String url1="https://api.weatherapi.com/v1/current.json?key=8728aaad07a8409c90b155708231704&q=mumbai&aqi=no";
         RequestQueue queue1=Volley.newRequestQueue(getApplicationContext());
         JsonObjectRequest  request1=new JsonObjectRequest(Request.Method.GET, url1, null, new Response.Listener<JSONObject>() {
@@ -65,7 +63,8 @@ public class MainActivity extends AppCompatActivity {
                     String cityDisplay=obj2.getString("name");
                     String temperature=obj.getString("temp_c");
                     String pressure=obj.getString("pressure_in");
-                    tv2.setText(cityDisplay.toUpperCase()+"\nTemp:"+temperature+" °C\nPressure: "+pressure);
+                    String humidity=obj.getString("humidity");
+                    tv2.setText(cityDisplay.toUpperCase()+"\nTemp:"+temperature+" °C\nPressure: "+pressure+"\nHumidity:"+humidity);
 
                 } catch (JSONException e) {
                     tv2.setText(e.toString());
@@ -82,14 +81,8 @@ public class MainActivity extends AppCompatActivity {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION_PERMISSION);
         } else {
-            startLocationUpdates();//comment else
+            startLocationUpdates();
         }
-//        tosearch.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                startActivity(new Intent(MainActivity.this, Search.class));
-//            }
-//        });
         et1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -124,7 +117,8 @@ public class MainActivity extends AppCompatActivity {
                                     String cityDisplay=obj2.getString("name");
                                     String temperature=obj.getString("temp_c");
                                     String pressure=obj.getString("pressure_in");
-                                    tv1.setText(cityDisplay.toUpperCase()+"\nTemp:"+temperature+" °C\nPressure: "+pressure);
+                                    String humidity=obj.getString("humidity");
+                                    tv1.setText(cityDisplay.toUpperCase()+"\nTemp:"+temperature+" °C\nPressure: "+pressure+"\nHumidity:"+humidity);
 
                                 } catch (JSONException e) {
                                     tv1.setText(e.toString());
